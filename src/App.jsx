@@ -223,6 +223,14 @@ const curriculumData = {
   },
 }
 
+// Preguntas predefinidas para el buscador asistido
+const searchKnowledgeBase = {
+  '¿Cuáles son los colores primarios?': 'Los colores primarios son el Amarillo, el Azul y el Rojo. Se llaman así porque son puros y no se pueden obtener mezclando otros colores.',
+  '¿Qué es la técnica del puntillismo?': 'El puntillismo es una técnica artística en la que se crean imágenes usando miles de pequeños puntos de color en lugar de trazos largos o pinceladas continuas.',
+  '¿Cómo combinar colores secundarios?': 'Los colores secundarios nacen al mezclar dos primarios: Amarillo + Azul = Verde; Azul + Rojo = Violeta; Rojo + Amarillo = Naranja.',
+  '¿Qué son las figuras geométricas en el arte?': 'Todo en el mundo se puede descomponer en figuras básicas como círculos, triángulos y rectángulos para construir dibujos y estructuras fácilmente.'
+}
+
 function App() {
   const [currentGrade, setCurrentGrade] = useState(1)
   const [activeTab, setActiveTab] = useState('textos')
@@ -233,6 +241,12 @@ function App() {
   const [modalText, setModalText] = useState(null)
   const [gameFeedback, setGameFeedback] = useState('')
   const [quizFeedback, setQuizFeedback] = useState('')
+
+  // Estados para el Buscador Asistido
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [assistantAnswer, setAssistantAnswer] = useState(null)
+
   const canvasRef = useRef(null)
   const isDrawingRef = useRef(false)
 
@@ -361,6 +375,14 @@ function App() {
     }
   }
 
+  // Manejo de Selección del Buscador Asistido
+  const handleSelectQuestion = (question) => {
+    setSearchQuery(question)
+    setSearchOpen(false)
+    const answer = searchKnowledgeBase[question] || '¡Qué gran pregunta sobre arte! Sigue explorando las secciones de Textos y Videos para descubrir más.'
+    setAssistantAnswer({ title: question, text: answer })
+  }
+
   const getCanvasPos = (event) => {
     const canvas = canvasRef.current
     const rect = canvas.getBoundingClientRect()
@@ -483,6 +505,34 @@ function App() {
             </div>
           </div>
 
+          {/* BUSCADOR ASISTIDO INTEGRADO */}
+          <div className="search-container">
+            <input
+              type="text"
+              className="search-box"
+              id="searchInput"
+              placeholder="🎨 Haz clic o pregunta algo sobre arte..."
+              value={searchQuery}
+              onClick={() => setSearchOpen(!searchOpen)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value)
+                setSearchOpen(true)
+              }}
+            />
+            <div className={`search-options ${searchOpen ? 'show' : ''}`} id="searchOptions">
+              {Object.keys(searchKnowledgeBase).map((question) => (
+                <div
+                  key={question}
+                  className="option-item"
+                  onClick={() => handleSelectQuestion(question)}
+                >
+                  {question.includes('color') ? '🎨 ' : question.includes('puntillismo') ? '🖌️ ' : question.includes('figuras') ? '📐 ' : '🌈 '}
+                  {question}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="grade-selector">
             <span className="grade-label hidden-mobile">
               <i className="fa-solid fa-graduation-cap" /> Grado:
@@ -510,6 +560,15 @@ function App() {
       </header>
 
       <main className="main-shell">
+        {/* BANNER DE RESPUESTA INTERACTIVA DEL ASISTENTE */}
+        <div className={`assistant-response ${assistantAnswer ? 'show' : ''}`} id="assistantResponse">
+          <button className="close-assistant" onClick={() => setAssistantAnswer(null)}>✕</button>
+          <h3 id="responseTitle">
+            <i className="fa-solid fa-wand-magic-sparkles" /> {assistantAnswer?.title}
+          </h3>
+          <p id="responseText">{assistantAnswer?.text}</p>
+        </div>
+
         <div className="hero-banner">
           <div className="hero-glow">LÜMØ</div>
           <div className="hero-content">
