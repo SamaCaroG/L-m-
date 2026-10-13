@@ -4,7 +4,6 @@
   --lumo-crimson: #d93d59;
   --lumo-green: #4bd166;
   --lumo-purple: #8549ba;
-  --lumo-bg: #ffffff;
   --font-title: 'Pangolin', cursive;
   --font-body: 'Verdana', sans-serif;
 }
@@ -14,20 +13,109 @@
 }
 
 html {
+  min-height: 100%;
+  background: #fff;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
   font-family: var(--font-body);
-  background-color: var(--lumo-bg);
-  background-image: url('../fondo.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
   color: #1f2937;
   user-select: none;
+}
+
+/* Humo */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  z-index: -4;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 22% 16% at 10% 52%, rgba(40, 215, 240, .75), transparent 70%),
+    radial-gradient(ellipse 16% 30% at 26% 38%, rgba(110, 230, 250, .65), transparent 70%),
+    radial-gradient(ellipse 18% 20% at 26% 72%, rgba(170, 245, 215, .65), transparent 70%),
+    radial-gradient(ellipse 12% 14% at 28% 84%, rgba(200, 255, 200, .6), transparent 70%),
+    radial-gradient(ellipse 14% 20% at 40% 55%, rgba(150, 245, 235, .45), transparent 70%),
+    radial-gradient(ellipse 14% 22% at 66% 55%, rgba(250, 190, 235, .6), transparent 70%),
+    radial-gradient(ellipse 12% 26% at 78% 48%, rgba(200, 150, 230, .55), transparent 70%),
+    radial-gradient(ellipse 16% 22% at 90% 55%, rgba(160, 150, 235, .6), transparent 70%),
+    radial-gradient(ellipse 20% 22% at 72% 82%, rgba(185, 175, 240, .5), transparent 70%);
+  filter: blur(38px) saturate(1.1);
+  animation: flotar 18s ease-in-out infinite alternate;
+}
+
+/* Desvanecido blanco arriba, abajo y al centro */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, #fff 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 72%, #fff 100%),
+    radial-gradient(ellipse 14% 40% at 47% 50%, rgba(255,255,255,.85), transparent 80%);
+}
+
+/* Motas grandes */
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: .9;
+  background:
+    radial-gradient(circle 4px at 12% 30%, #fff 98%, transparent),
+    radial-gradient(circle 3px at 22% 62%, #fff 98%, transparent),
+    radial-gradient(circle 5px at 8% 76%, #fff 98%, transparent),
+    radial-gradient(circle 2px at 35% 44%, #fff 98%, transparent),
+    radial-gradient(circle 4px at 31% 82%, #fff 98%, transparent),
+    radial-gradient(circle 3px at 18% 48%, #fff 98%, transparent),
+    radial-gradient(circle 5px at 64% 42%, #fff 98%, transparent),
+    radial-gradient(circle 3px at 72% 70%, #fff 98%, transparent),
+    radial-gradient(circle 4px at 83% 56%, #fff 98%, transparent),
+    radial-gradient(circle 2px at 58% 80%, #fff 98%, transparent),
+    radial-gradient(circle 5px at 93% 60%, #fff 98%, transparent),
+    radial-gradient(circle 3px at 77% 36%, #fff 98%, transparent);
+}
+
+/* Motas pequeñas repetidas */
+html::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .8;
+  background-image:
+    radial-gradient(circle 2px at 20% 20%, #fff 98%, transparent),
+    radial-gradient(circle 3px at 60% 60%, #fff 98%, transparent),
+    radial-gradient(circle 2px at 40% 80%, #fff 98%, transparent),
+    radial-gradient(circle 3px at 80% 30%, #fff 98%, transparent),
+    radial-gradient(circle 2px at 10% 90%, #fff 98%, transparent),
+    radial-gradient(circle 2px at 20% 20%, #fff 98%, transparent),
+    radial-gradient(circle 3px at 60% 60%, #fff 98%, transparent),
+    radial-gradient(circle 2px at 40% 80%, #fff 98%, transparent),
+    radial-gradient(circle 3px at 80% 30%, #fff 98%, transparent),
+    radial-gradient(circle 2px at 10% 90%, #fff 98%, transparent);
+  background-size:
+    211px 173px, 211px 173px, 211px 173px, 211px 173px, 211px 173px,
+    137px 109px, 137px 109px, 137px 109px, 137px 109px, 137px 109px;
+  background-position:
+    0 0, 0 0, 0 0, 0 0, 0 0,
+    40px 30px, 40px 30px, 40px 30px, 40px 30px, 40px 30px;
+}
+
+@keyframes flotar {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+  to   { transform: translate3d(1.5%, 1.5%, 0) scale(1.05); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
 }
 
 h1,
