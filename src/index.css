@@ -4,7 +4,7 @@
   --lumo-crimson: #d93d59;
   --lumo-green: #4bd166;
   --lumo-purple: #8549ba;
-  --lumo-bg: #fffdf5;
+  --lumo-bg: #ffffff;
   --font-title: 'Pangolin', cursive;
   --font-body: 'Verdana', sans-serif;
 }
@@ -20,9 +20,23 @@ html {
 body {
   margin: 0;
   font-family: var(--font-body);
-  background: var(--lumo-bg);
+  background-color: var(--lumo-bg);
+  background-image: url('../fondo.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
   color: #1f2937;
   user-select: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-title);
 }
 
 #root {
@@ -60,15 +74,16 @@ span {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #e7f6fa;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--lumo-blue);
+  background: #8ed8e7;
   border-radius: 10px;
+  border: 2px solid #e7f6fa;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--lumo-crimson);
+  background: #54bfd5;
 }
