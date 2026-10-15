@@ -1499,3 +1499,677 @@ function App() {
 }
 
 export default App 
+import React, { useState } from 'react';
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('nosotros'); // 'inicio' o 'nosotros'
+
+  // Lista de estudiantes según requerimiento (Nombre + Inicial de Apellido)
+  const equipoEstudiantes = [
+    {
+      nombre: "Héctor B.",
+      rol: "Desarrollador Frontend",
+      avatar: "🎨",
+      color: "#9333ea",
+      descripcion: "Especialista en interfaces accesibles y dinámicas para primaria."
+    },
+    {
+      nombre: "Luz C.",
+      rol: "Diseñadora UX/UI",
+      avatar: "🌸",
+      color: "#eab308",
+      descripcion: "Creadora de la paleta amigable y experiencia visual interactiva."
+    },
+    {
+      nombre: "Samantha E.",
+      rol: "Coordinadora de Contenido",
+      avatar: "⭐",
+      color: "#22c55e",
+      descripcion: "Encargada de la estructura pedagógica y material didáctico."
+    },
+    {
+      nombre: "Juan D.",
+      rol: "Desarrollador de Juegos",
+      avatar: "🚀",
+      color: "#ec4899",
+      descripcion: "Creador de los retos digitales y dinámicas motrices."
+    },
+    {
+      nombre: "Alan E.",
+      rol: "Especialista en QA & Multimedia",
+      avatar: "🎧",
+      color: "#06b6d4",
+      descripcion: "Aseguramiento de calidad técnica y optimización de recursos."
+    }
+  ];
+
+  return (
+    <div className="lumo-app">
+      {/* Estilos CSS Integrados en el mismo archivo */}
+      <style>{`
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          font-family: 'Comic Sans MS', 'Bubblegum Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+          background-color: #f4fbfd;
+          color: #2c3e50;
+        }
+
+        .lumo-app {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          background: radial-gradient(circle at 10% 20%, rgba(186, 230, 253, 0.3) 0%, rgba(243, 232, 255, 0.4) 90%);
+        }
+
+        /* --- NAVBAR ESTILO LUMØ --- */
+        .navbar {
+          background-color: #0e7192;
+          padding: 12px 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: white;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+
+        .logo-container {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+        }
+
+        .logo-text {
+          font-size: 28px;
+          font-weight: 900;
+          letter-spacing: 1px;
+          color: #ffffff;
+          text-shadow: 2px 2px 0px #065570;
+        }
+
+        .logo-dot {
+          color: #fbbf24;
+        }
+
+        .search-bar {
+          display: flex;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          border-radius: 20px;
+          padding: 6px 16px;
+          width: 320px;
+          max-width: 100%;
+        }
+
+        .search-input {
+          background: transparent;
+          border: none;
+          outline: none;
+          color: white;
+          width: 100%;
+          font-size: 14px;
+        }
+
+        .search-input::placeholder {
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-icon {
+          background: white;
+          color: #0e7192;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 12px;
+          font-weight: bold;
+        }
+
+        .nav-actions {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .nav-btn {
+          background: transparent;
+          border: 2px solid transparent;
+          color: white;
+          font-weight: 700;
+          font-size: 15px;
+          padding: 6px 16px;
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .nav-btn:hover {
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn.active {
+          background: #ffffff;
+          color: #0e7192;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-pill {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(255, 255, 255, 0.15);
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-weight: bold;
+          font-size: 14px;
+        }
+
+        .user-avatar {
+          width: 28px;
+          height: 28px;
+          background: white;
+          color: #0e7192;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .main-container {
+          flex: 1;
+          max-width: 1100px;
+          width: 100%;
+          margin: 0 auto;
+          padding: 32px 20px;
+        }
+
+        .page-header {
+          text-align: center;
+          margin-bottom: 32px;
+        }
+
+        .page-title {
+          font-size: 36px;
+          color: #7e22ce;
+          font-weight: 900;
+          margin-bottom: 8px;
+          text-shadow: 1px 1px 0px #e9d5ff;
+        }
+
+        .page-subtitle {
+          color: #64748b;
+          font-size: 16px;
+        }
+
+        /* --- SECCIÓN NOSOTROS (ESTRUC. PEMSAM + ESTÉTICA LUMØ) --- */
+        .grid-two {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 24px;
+          margin-bottom: 32px;
+        }
+
+        .card {
+          background: white;
+          border-radius: 24px;
+          padding: 28px;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+          border: 3px solid #f1f5f9;
+          transition: transform 0.2s;
+        }
+
+        .card:hover {
+          transform: translateY(-4px);
+        }
+
+        .card-title {
+          font-size: 24px;
+          font-weight: 800;
+          color: #0e7192;
+          margin-bottom: 14px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .card-text {
+          color: #475569;
+          line-height: 1.6;
+          font-size: 15px;
+        }
+
+        .illustration-box {
+          background: #f0fdf4;
+          border-radius: 18px;
+          padding: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 48px;
+          margin-top: 16px;
+          border: 2px dashed #86efac;
+        }
+
+        /* OBJETIVOS */
+        .objectives-section {
+          background: white;
+          border-radius: 24px;
+          padding: 32px;
+          border: 3px solid #e2e8f0;
+          margin-bottom: 32px;
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        .obj-general {
+          background: #0e7192;
+          color: white;
+          padding: 20px 24px;
+          border-radius: 16px;
+          margin-bottom: 24px;
+        }
+
+        .obj-general h4 {
+          font-size: 14px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          opacity: 0.9;
+          margin-bottom: 6px;
+        }
+
+        .obj-general p {
+          font-size: 18px;
+          font-weight: 700;
+        }
+
+        .obj-specifics-title {
+          font-size: 18px;
+          color: #0e7192;
+          font-weight: 800;
+          margin-bottom: 14px;
+        }
+
+        .obj-list {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .obj-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          background: #f8fafc;
+          padding: 14px 18px;
+          border-radius: 12px;
+          border-left: 4px solid #3b82f6;
+          font-size: 15px;
+          color: #334155;
+        }
+
+        /* NUESTRO EQUIPO */
+        .team-section {
+          margin-bottom: 36px;
+        }
+
+        .section-heading {
+          text-align: center;
+          font-size: 28px;
+          color: #0e7192;
+          font-weight: 900;
+          margin-bottom: 6px;
+        }
+
+        .section-subheading {
+          text-align: center;
+          color: #64748b;
+          margin-bottom: 28px;
+          font-size: 14px;
+        }
+
+        .team-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+          gap: 20px;
+        }
+
+        .team-card {
+          background: white;
+          border-radius: 20px;
+          padding: 20px 16px;
+          text-align: center;
+          border: 3px solid #f1f5f9;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transition: all 0.2s ease;
+        }
+
+        .team-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+        }
+
+        .avatar-circle {
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 32px;
+          margin-bottom: 14px;
+          box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .member-name {
+          font-size: 18px;
+          font-weight: 800;
+          color: #1e293b;
+          margin-bottom: 4px;
+        }
+
+        .member-role {
+          font-size: 12px;
+          font-weight: 700;
+          color: #64748b;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 10px;
+        }
+
+        .member-desc {
+          font-size: 13px;
+          color: #64748b;
+          line-height: 1.4;
+        }
+
+        /* TECNOLOGÍAS Y RECURSOS */
+        .tech-resources-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 24px;
+          margin-bottom: 32px;
+        }
+
+        .tech-box, .resource-box {
+          background: white;
+          border-radius: 20px;
+          padding: 24px;
+          border: 3px solid #f1f5f9;
+        }
+
+        .badge-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 16px;
+        }
+
+        .badge {
+          background: #f1f5f9;
+          color: #334155;
+          padding: 8px 14px;
+          border-radius: 12px;
+          font-size: 13px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        /* FOOTER ESTILO LUMØ */
+        .footer {
+          background: #ffffff;
+          border-top: 2px solid #e2e8f0;
+          padding: 20px 32px;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          font-size: 13px;
+          color: #64748b;
+        }
+
+        .footer-logo {
+          font-size: 20px;
+          font-weight: 900;
+          color: #0e7192;
+        }
+
+        /* HOME DUMMY VIEW */
+        .home-view {
+          text-align: center;
+          padding: 40px 0;
+        }
+
+        .courses-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          max-width: 800px;
+          margin: 30px auto;
+        }
+
+        .course-card {
+          background: white;
+          padding: 20px;
+          border-radius: 20px;
+          border: 3px solid;
+          font-weight: bold;
+          font-size: 20px;
+          box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 768px) {
+          .navbar {
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+          }
+          .search-bar {
+            width: 100%;
+          }
+          .courses-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+
+      {/* ENCABEZADO / NAVBAR CON ACCESO A "NOSOTROS" */}
+      <nav className="navbar">
+        <div className="logo-container" onClick={() => setActiveTab('inicio')}>
+          <div className="logo-text">LÜMØ<span className="logo-dot">•</span></div>
+        </div>
+
+        <div className="search-bar">
+          <input type="text" className="search-input" placeholder="Buscar en LÜMØ..." />
+          <div className="search-icon">🔍</div>
+        </div>
+
+        <div className="nav-actions">
+          <button 
+            className={`nav-btn ${activeTab === 'inicio' ? 'active' : ''}`}
+            onClick={() => setActiveTab('inicio')}
+          >
+            🏠 Inicio
+          </button>
+          
+          {/* Botón de acceso a "Nosotros" ubicado al lado de "Usuario" */}
+          <button 
+            className={`nav-btn ${activeTab === 'nosotros' ? 'active' : ''}`}
+            onClick={() => setActiveTab('nosotros')}
+          >
+            👥 Nosotros
+          </button>
+
+          <div className="user-pill">
+            <span>Usuario</span>
+            <div className="user-avatar">👤</div>
+          </div>
+        </div>
+      </nav>
+
+      {/* CONTENIDO PRINCIPAL */}
+      <main className="main-container">
+        {activeTab === 'nosotros' ? (
+          <div>
+            <div className="page-header">
+              <h1 className="page-title">¡CONOCE MÁS SOBRE NOSOTROS!</h1>
+              <p className="page-subtitle">El proyecto detrás de la plataforma didáctica y artística LÜMØ</p>
+            </div>
+
+            {/* SECCIÓN: MISIÓN Y PROYECTO */}
+            <div className="grid-two">
+              <div className="card">
+                <h3 className="card-title">🎯 Nuestra misión</h3>
+                <p className="card-text">
+                  El propósito de LÜMØ es fortalecer la motricidad, creatividad e imaginación en niños
+                  de educación primaria a través de actividades lúdicas, digitales y accesibles. Diseñamos
+                  experiencias artísticas que estimulan el aprendizaje interactivo en un entorno seguro y divertido.
+                </p>
+                <div className="illustration-box" style={{ background: '#fef3c7', borderColor: '#fde047' }}>
+                  🎮 🎨 ✏️
+                </div>
+              </div>
+
+              <div className="card">
+                <h3 className="card-title">🧩 ¿Por qué existe LÜMØ?</h3>
+                <p className="card-text">
+                  Este proyecto surge como una iniciativa educativa frente a la necesidad de ofrecer herramientas 
+                  didácticas e interactivas en un entorno escolar digitalizado. Buscamos conectar el arte, la cultura y la 
+                  expresión libre para que los estudiantes aprendan jugando y creando.
+                </p>
+                <div className="illustration-box" style={{ background: '#e0f2fe', borderColor: '#bae6fd' }}>
+                  🧩 💡 🌟
+                </div>
+              </div>
+            </div>
+
+            {/* SECCIÓN: OBJETIVOS */}
+            <div className="objectives-section">
+              <div className="card-title" style={{ marginBottom: '20px' }}>
+                📌 Objetivos generales y específicos
+              </div>
+              
+              <div className="obj-general">
+                <h4>Objetivo General</h4>
+                <p>Fortalecer las habilidades artísticas, creativas y motrices de los estudiantes de educación primaria mediante un aplicativo web interactivo.</p>
+              </div>
+
+              <div className="obj-specifics-title">Objetivos específicos:</div>
+              <ul className="obj-list">
+                <li className="obj-item">
+                  <span>🎨</span>
+                  <span>Diseñar e implementar actividades interactivas en el aplicativo web que promuevan la exploración de formas y colores.</span>
+                </li>
+                <li className="obj-item">
+                  <span>🖌️</span>
+                  <span>Construir y aplicar ejercicios didácticos a través del lienzo digital para mejorar las habilidades perceptivas.</span>
+                </li>
+                <li className="obj-item">
+                  <span>📊</span>
+                  <span>Evaluar el desarrollo creativo e interactivad de los estudiantes mediante módulos didácticos adaptables.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* SECCIÓN: NUESTRO EQUIPO (ESTUDIANTES SOLICITADOS) */}
+            <section className="team-section">
+              <h2 className="section-heading">Nuestro equipo</h2>
+              <p className="section-subheading">Estudiantes apasionados por la educación, el arte y la tecnología</p>
+
+              <div className="team-grid">
+                {equipoEstudiantes.map((estudiante, idx) => (
+                  <div className="team-card" key={idx}>
+                    <div className="avatar-circle" style={{ background: `${estudiante.color}20`, color: estudiante.color }}>
+                      {estudiante.avatar}
+                    </div>
+                    <div className="member-name">{estudiante.nombre}</div>
+                    <div className="member-role">{estudiante.rol}</div>
+                    <div className="member-desc">{estudiante.descripcion}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* SECCIÓN: TECNOLOGÍAS Y RECURSOS */}
+            <div className="tech-resources-grid">
+              <div className="tech-box">
+                <h3 className="card-title">💻 Tecnologías empleadas</h3>
+                <p className="card-text">Lenguajes y herramientas para la estructuración y dinamismo del sitio:</p>
+                <div className="badge-list">
+                  <span className="badge">🌐 HTML5</span>
+                  <span className="badge">🎨 CSS3 Puro</span>
+                  <span className="badge">⚛️ React JS</span>
+                  <span className="badge">⚡ JavaScript (ES6+)</span>
+                </div>
+              </div>
+
+              <div className="resource-box">
+                <h3 className="card-title">🛠️ Recursos usados</h3>
+                <p className="card-text">Plataformas e instrumentos de apoyo pedagógico y visual:</p>
+                <div className="badge-list">
+                  <span className="badge">📦 GitHub</span>
+                  <span className="badge">🚀 Vercel</span>
+                  <span className="badge">🎨 Canva / Ilustración</span>
+                  <span className="badge">📚 Contenido Pedagógico</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* VISTA INICIAL DUMMY PARA MOSTRAR LA NAVEGACIÓN */
+          <div className="home-view">
+            <h1 className="page-title">¡BIENVENIDO A LÜMØ!</h1>
+            <p className="page-subtitle">Elige tu curso y vamos a crear.</p>
+
+            <div className="courses-grid">
+              <div className="course-card" style={{ borderColor: '#9333ea', color: '#9333ea' }}>
+                <div style={{ fontSize: '50px' }}>1️⃣</div>
+                Primero
+              </div>
+              <div className="course-card" style={{ borderColor: '#eab308', color: '#ca8a04' }}>
+                <div style={{ fontSize: '50px' }}>2️⃣</div>
+                Segundo
+              </div>
+              <div className="course-card" style={{ borderColor: '#22c55e', color: '#16a34a' }}>
+                <div style={{ fontSize: '50px' }}>3️⃣</div>
+                Tercero
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* PIE DE PÁGINA ESTILO LUMØ */}
+      <footer className="footer">
+        <div>
+          <span className="footer-logo">LÜMØ</span> — Arte Digital e Interactividad Educativa.
+        </div>
+        <div>
+          © 2026 LÜMØ Educativo. Arte, cultura y creatividad para aprender en comunidad.
+        </div>
+      </footer>
+    </div>
+  );
+}
