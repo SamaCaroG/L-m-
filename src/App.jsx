@@ -2043,9 +2043,12 @@ export default function App() {
               <div className="card">
                 <h3 className="card-title">🎯 Nuestra misión</h3>
                 <p className="card-text">
-                  El propósito de LÜMØ es fortalecer la motricidad, creatividad e imaginación en niños
-                  de educación primaria a través de actividades lúdicas, digitales y accesibles. Diseñamos
-                  experiencias artísticas que estimulan el aprendizaje interactivo en un entorno seguro y divertido.
+                  Fomentar curiosidad y habilidades artísticas.
+                  Evaluando proyectos de 1° a 3°.
+                  Mediante exploración visual y digital.
+                  Aplicando el arte a diario.
+                  Durante este ciclo escolar actual.
+
                 </p>
                 <div className="illustration-box" style={{ background: '#fef3c7', borderColor: '#fde047' }}>
                   🎮 🎨 ✏️
@@ -2055,9 +2058,7 @@ export default function App() {
               <div className="card">
                 <h3 className="card-title">🧩 ¿Por qué existe LÜMØ?</h3>
                 <p className="card-text">
-                  Este proyecto surge como una iniciativa educativa frente a la necesidad de ofrecer herramientas 
-                  didácticas e interactivas en un entorno escolar digitalizado. Buscamos conectar el arte, la cultura y la 
-                  expresión libre para que los estudiantes aprendan jugando y creando.
+                  Su núcleo pedagógico está alineado con los lineamientos curriculares de Educación Artística establecidos por el Ministerio de Educación Nacional de Colombia. El MEN estipula que la educación en estas edades no busca formar artistas técnicos, sino seres humanos integrales a través de tres dimensiones fundamentales.
                 </p>
                 <div className="illustration-box" style={{ background: '#e0f2fe', borderColor: '#bae6fd' }}>
                   🧩 💡 🌟
@@ -2068,12 +2069,18 @@ export default function App() {
             {/* SECCIÓN: OBJETIVOS */}
             <div className="objectives-section">
               <div className="card-title" style={{ marginBottom: '20px' }}>
-                📌 Objetivos generales y específicos
+                📌 SIGNIFICADO DE LÜMØ
               </div>
               
               <div className="obj-general">
                 <h4>Objetivo General</h4>
-                <p>Fortalecer las habilidades artísticas, creativas y motrices de los estudiantes de educación primaria mediante un aplicativo web interactivo.</p>
+                <p>FLÜM proviene del latín luz infinita.
+                Los puntos en Ü son como ojitos.
+                Los ojos representan la curiosidad infantil.
+                La Ø es la marca de los programadores.
+                LÜMØ une tecnología y uso infantil.
+                Es luz creativa en un entorno digital.
+</p>
               </div>
 
               <div className="obj-specifics-title">Objetivos específicos:</div>
